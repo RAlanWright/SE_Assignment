@@ -1,3 +1,4 @@
+# import all necessary modules
 from selenium import webdriver
 import json
 import requests
@@ -12,7 +13,8 @@ authkey  = "demdigits"
 # include CBT api
 response = requests.get("https://crossbrowsertesting.com/api/v3/selenium/browsers")
 
-print(response)         # sanity checking
+# sanity checking to make sure there is a response
+print(response)         
 
 # create dictionary for devices
 device_list = json.loads(response.text)
@@ -46,6 +48,8 @@ def runTest(browser):
     )
     driver.implicitly_wait(20)
     driver.get('http://local:8000/Megaman.html')
+   
+    # if the title is the same, then print result otherwise print opposite result
     if "Megaman" == driver.title:
         test_result = 'pass'
         print('Test has passed!  :)')
@@ -53,6 +57,7 @@ def runTest(browser):
         test_result = 'fail'
         print('Test has failed!')
     
+    # if test result exists, set the score
     if test_result is not None:
         api_session.put('https://crossbrowsertesting.com/api/v3/selenium/' + driver.session_id,
                 data={'action':'set_score', 'score':test_result})
