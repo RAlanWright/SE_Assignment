@@ -66,7 +66,7 @@ def runTest(browser):
 
 # Run cbt_tunnel in the background while performing test
 p = Popen(['C:/Users/UserName/AnotherFolder/SE_Assignment/cbt-tunnels-win64.exe',  '--username', 'username@mail.com', '--authkey', 'demdigits'])      
-time.sleep(10)          # make sure enough time to open tunnel before beginning 
+time.sleep(15)          # make sure enough time to open tunnel before beginning 
 runTest(winBrowsers)    # test random Windows browser
 runTest(macBrowsers)    # test random Mac browser
 runTest(mobileBrowsers) # test random Mobile browser
