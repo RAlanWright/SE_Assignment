@@ -5,14 +5,14 @@ import random
 from subprocess import Popen
 import time
 
-
-username = "wright.alan88@gmail.com"
-authkey  = "u934d2edac9ad5a0"
-
-
+# username & authkey credentials to be passed in
+username = "username@mail.com"
+authkey  = "demdigits"
 
 # include CBT api
 response = requests.get("https://crossbrowsertesting.com/api/v3/selenium/browsers")
+
+print(response)         # sanity checking
 
 # create dictionary for devices
 device_list = json.loads(response.text)
@@ -32,7 +32,7 @@ winBrowsers = random.choice((random.choice(windowsList))['browsers'])
 macBrowsers = random.choice((random.choice(macList))['browsers'])
 mobileBrowsers = random.choice((random.choice(mobileList))['browsers'])
 
-
+# create function for testing
 def runTest(browser):
     api_session = requests.Session()
     api_session.auth = (username, authkey)
@@ -58,13 +58,11 @@ def runTest(browser):
                 data={'action':'set_score', 'score':test_result})
     driver.quit()
 
-p = Popen(['C:/Users/Alakazam/Documents/SE_Assignment/cbt-tunnels-win64.exe',  '--username', 'wright.alan88@gmail.com', '--authkey', 'u934d2edac9ad5a0'])
-time.sleep(30)
-print(response)
-runTest(winBrowsers)
-print(response)
-runTest(macBrowsers)
-print(response)
-runTest(mobileBrowsers)
-print(response)
-p.terminate()
+
+# Run cbt_tunnel in the background while performing test
+p = Popen(['C:/Users/Alakazam/Documents/SE_Assignment/cbt-tunnels-win64.exe',  '--username', 'username@mail.com', '--authkey', 'demdigits'])
+time.sleep(10)          # make sure enough time to open tunnel before beginning 
+runTest(winBrowsers)    # test random Windows browser
+runTest(macBrowsers)    # test random Mac browser
+runTest(mobileBrowsers) # test random Mobile browser
+p.terminate()           # terminate tunnel after last test finishes
